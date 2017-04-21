@@ -1,6 +1,23 @@
 #pragma once
 
 #include "ofMain.h"
+class Bob {
+
+public:
+	float angularVelocity;
+	float angle;
+	float angularAcceleration;
+	float mass;
+	float gravity;
+
+	ofVec2f location;
+	
+	Bob(float _mass);
+	void display();
+	void update(float calculatedAcceleration, ofVec2f origin, float length);
+	
+
+};
 
 class ofApp : public ofBaseApp{
 
