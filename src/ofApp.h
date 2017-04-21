@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxGui.h"
 class Bob {
 
 public:
@@ -62,5 +63,13 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+		ofxFloatSlider uppermass;
+		ofxFloatSlider lowermass;
+		ofxFloatSlider upperlength;
+		ofxFloatSlider lowerlength;
+		ofxPanel GUI;
+		ofxToggle trail;
+		ofxToggle angle;
 		
 };

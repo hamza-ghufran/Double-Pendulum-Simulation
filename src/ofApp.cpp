@@ -32,7 +32,6 @@ void Bob::update(float calculatedAcceleration, ofVec2f origin, float length) {
 }
 
 
-
 Pendulum::Pendulum(float _upperLength, float _lowerLength) {
 
 	upperLength = _upperLength;
@@ -102,6 +101,15 @@ float Pendulum::LowerPendulumAcceleration() {
 void ofApp::setup(){
 	ofBackground(150);
 	ofSetFrameRate(60);
+
+	GUI.setup();
+	GUI.add(uppermass.setup("Mass of Upper Bob", 10, 10, 40));
+	GUI.add(lowermass.setup("Mass of Lower Bob", 10, 2, 40));
+	GUI.add(upperlength.setup("Length of Upper String", 100, 20, 500));
+	GUI.add(lowerlength.setup("Length of Lower String", 100, 20, 500));
+
+	GUI.add(trail.setup("TRAILS", true));
+
 }
 
 //--------------------------------------------------------------
@@ -111,7 +119,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+	GUI.draw();
+	//pendulum.go();
 }
 
 //--------------------------------------------------------------
