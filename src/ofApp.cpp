@@ -3,9 +3,11 @@
 Bob Upperbob(10);
 Bob Lowerbob(10);
 
+//--------------------------------------------------------------
+
 Bob::Bob(float _mass) {
 	//Initialize the location
-	//initial angle, angularVelocity & angularAcceleration
+	//Initial angle, angularVelocity & angularAcceleration
 	angle = PI / 1.1;
 	angularVelocity = 0.0;
 	angularAcceleration = 0.0;
@@ -25,17 +27,17 @@ void Bob::update(float calculatedAcceleration, ofVec2f origin, float length) {
 		angularVelocity += angularAcceleration;
 		angle += angularVelocity;
 	}
-	//comment angulaVelocity for no air friction
-	angularVelocity *= 0.993;
+
 	//Polar to Cartesian (length=r)
+
 	location.set(length*sin(angle), length*cos(angle));
 	location += origin;
 }
 
 void Bob::check(float x, float y) {
 
-	float d = ofDist(x, y, location.x, location.y);
-	if (d < 2 * mass) {
+	float difference = ofDist(x, y, location.x, location.y);
+	if (difference< mass) {
 		dragging = true;
 	}
 }
@@ -57,7 +59,6 @@ void Bob::stopDrag() {
 	dragging = false;
 }
 
-
 void Bob::changeinmass(float _slidermass) {
 	mass = _slidermass;
 }
@@ -78,7 +79,8 @@ Pendulum::Pendulum(float _upperLength, float _lowerLength) {
 
 	upperLength = _upperLength;
 	lowerLength = _lowerLength;
-	origin.set(640 / 2, 75);
+	origin.set(640/2, 150);
+	
 }
 
 void Pendulum::go() {
@@ -146,14 +148,15 @@ void ofApp::setup(){
 	ofBackground(150);
 	ofSetFrameRate(60);
 
+	
 	GUI.setup();
-	GUI.add(uppermass.setup("Mass of Upper Bob", 10, 10, 40));
-	GUI.add(lowermass.setup("Mass of Lower Bob", 10, 2, 40));
-	GUI.add(upperlength.setup("Length of Upper String", 100, 20, 500));
-	GUI.add(lowerlength.setup("Length of Lower String", 100, 20, 500));
+	GUI.add(uppermass.setup("Upper Bob Mass", 10, 10, 40));
+	GUI.add(lowermass.setup("Lower Bob Mass", 10, 2, 40));
+	GUI.add(upperlength.setup("Upper String Length", 100, 20, 500));
+	GUI.add(lowerlength.setup("Lower String Length", 60, 20, 500));
 
 	GUI.add(trail.setup("TRAILS", true));
-
+	GUI.add(airFriction.setup("Air Friction", false));
 }
 
 //--------------------------------------------------------------
@@ -166,24 +169,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
+	ofDrawLine(640 / 2 - 20, 150, 640 / 2 + 20,150);
+	
+
 	GUI.draw();
 	pendulum.go();
 	if (trail == true) Lowerbob.trails();
-}
-
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
+	if (airFriction == true) { Lowerbob.angularVelocity *= 0.993; Upperbob.angularVelocity *= 0.993; }
 }
 
 //--------------------------------------------------------------
@@ -201,29 +194,4 @@ void ofApp::mousePressed(int x, int y, int button){
 void ofApp::mouseReleased(int x, int y, int button){
 	Upperbob.stopDrag();
 	Lowerbob.stopDrag();
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
 }
