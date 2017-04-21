@@ -20,15 +20,58 @@ void Bob::display() {
 }
 
 void Bob::update(float calculatedAcceleration, ofVec2f origin, float length) {
-
+	if (!dragging) {
 		angularAcceleration = calculatedAcceleration;
 		angularVelocity += angularAcceleration;
 		angle += angularVelocity;
-	
+	}
 	angularVelocity *= 0.993;
 	//Polar to Cartesian (length=r)
 	location.set(length*sin(angle), length*cos(angle));
 	location += origin;
+}
+
+void Bob::check(float x, float y) {
+
+	float d = ofDist(x, y, location.x, location.y);
+	if (d < 2 * mass) {
+		dragging = true;
+	}
+}
+void Bob::drag() {    //to run the program press f5 and to close it run alt f4 ill be back in 5 min dont do any bakchodi okay
+
+					  //While dragging we calculate the angle between the 
+					  // pendulum location and mouse position
+					  // we then convert from Cartesian to Polar 
+	if (dragging) {
+
+		ofVec2f mouse(mx, my);
+		//ofVec2f diff = location - mouse;   // Difference between 2 points
+		//issue here
+		angle = mouse.angleRad(location);
+
+		//angle= atan2(-1 * diff.y, diff.x) - ofDegToRad(90);// Angle relative to vertical axis
+	}
+}
+
+void Bob::stopDrag() {
+	angularVelocity = 0; // No velocity once you let go
+	dragging = false;
+}
+
+
+void Bob::changeinmass(float _slidermass) {
+	mass = _slidermass;
+}
+
+void Bob::trails() {
+	//x,y location stored in a vector array
+	points.push_back(location);
+
+	for (int i = 0; i <= points.size(); i++) {
+		point = points[i];
+		ofDrawCircle(point.x, point.y, 1, 1);
+	}
 }
 
 
@@ -96,8 +139,10 @@ float Pendulum::LowerPendulumAcceleration() {
 	return (NUM / DENOM);
 }
 
-
 //--------------------------------------------------------------
+//Pass in length of Pendulum
+Pendulum pendulum(50, 70);
+
 void ofApp::setup(){
 	ofBackground(150);
 	ofSetFrameRate(60);
@@ -120,7 +165,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	GUI.draw();
-	//pendulum.go();
+	pendulum.go();
+	if (trail == true) Lowerbob.trails();
 }
 
 //--------------------------------------------------------------
@@ -140,17 +186,19 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	Upperbob.mx = x;
+	Upperbob.my = y;
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+	Upperbob.check(x, y);
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+	Upperbob.stopDrag();
+	Lowerbob.stopDrag();
 }
 
 //--------------------------------------------------------------

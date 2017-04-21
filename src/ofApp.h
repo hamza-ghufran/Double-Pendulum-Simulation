@@ -10,13 +10,22 @@ public:
 	float angularAcceleration;
 	float mass;
 	float gravity;
+	bool dragging = false;
+	float mx, my;
 
 	ofVec2f location;
-	
+	vector<ofPoint> points;
+	ofVec2f point;
+
 	Bob(float _mass);
 	void display();
 	void update(float calculatedAcceleration, ofVec2f origin, float length);
-	
+	void trails();
+	void changeinmass(float _slidermass);
+
+	void check(float x, float y);
+	void drag();
+	void stopDrag();
 
 };
 
