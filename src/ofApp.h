@@ -19,6 +19,31 @@ public:
 
 };
 
+//__________________________________________________________________________________________________________________________________________
+class Pendulum {
+
+public:
+	float length;
+	float gravity = 0.4;
+	float damping = 0.999;
+	ofVec2f origin;
+	float upperLength;
+	float lowerLength;
+
+
+	Pendulum(float _upperlength, float _lowerlength);
+	void go();
+	void display();
+	void update();
+	void changeinlength(float _length1, float _length2);
+
+	float UpperPendulumAcceleration();
+	float LowerPendulumAcceleration();
+
+};
+
+//____________________________________________________________________________________________________________________________________________
+
 class ofApp : public ofBaseApp{
 
 	public:
