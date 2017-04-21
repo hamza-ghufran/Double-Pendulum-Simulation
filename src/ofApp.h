@@ -79,6 +79,6 @@ class ofApp : public ofBaseApp{
 		ofxFloatSlider lowerlength;
 		ofxPanel GUI;
 		ofxToggle trail;
-		ofxToggle angle;
+		//ofxToggle angle;
 		
 };

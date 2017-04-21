@@ -25,6 +25,7 @@ void Bob::update(float calculatedAcceleration, ofVec2f origin, float length) {
 		angularVelocity += angularAcceleration;
 		angle += angularVelocity;
 	}
+	//comment angulaVelocity for no air friction
 	angularVelocity *= 0.993;
 	//Polar to Cartesian (length=r)
 	location.set(length*sin(angle), length*cos(angle));
@@ -38,18 +39,15 @@ void Bob::check(float x, float y) {
 		dragging = true;
 	}
 }
-void Bob::drag() {    //to run the program press f5 and to close it run alt f4 ill be back in 5 min dont do any bakchodi okay
-
+void Bob::drag() {    
 					  //While dragging we calculate the angle between the 
-					  // pendulum location and mouse position
+					  // pendulum location and mouse positio 	  
 					  // we then convert from Cartesian to Polar 
 	if (dragging) {
-
 		ofVec2f mouse(mx, my);
 		//ofVec2f diff = location - mouse;   // Difference between 2 points
 		//issue here
-		angle = mouse.angleRad(location);
-
+		angle =mouse.angleRad(location);
 		//angle= atan2(-1 * diff.y, diff.x) - ofDegToRad(90);// Angle relative to vertical axis
 	}
 }
@@ -74,6 +72,7 @@ void Bob::trails() {
 	}
 }
 
+//--------------------------------------------------------------
 
 Pendulum::Pendulum(float _upperLength, float _lowerLength) {
 
@@ -83,9 +82,9 @@ Pendulum::Pendulum(float _upperLength, float _lowerLength) {
 }
 
 void Pendulum::go() {
-
 	display();
 	update();
+	Upperbob.drag();
 	
 }
 
@@ -160,6 +159,9 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
+	Lowerbob.changeinmass(lowermass);
+	Upperbob.changeinmass(uppermass);
+	pendulum.changeinlength(upperlength, lowerlength);
 }
 
 //--------------------------------------------------------------
