@@ -6,3 +6,6 @@ go through the website for a better understanding.
 
 Inspiration from
 hhttp://natureofcode.com/book/chapter-3-oscillation/
+
+Compiled on Visual Studio with Openframeworks - C++. 
+
