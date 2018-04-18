@@ -9,3 +9,5 @@ hhttp://natureofcode.com/book/chapter-3-oscillation/
 
 Compiled on Visual Studio with Openframeworks - C++. 
 
+## In Action 
+![bob](https://user-images.githubusercontent.com/25098740/38940761-98c921f2-4348-11e8-933b-30bc8991bd85.png)
